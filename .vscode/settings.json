@@ -1,0 +1,21 @@
+{
+    "totvsLanguageServer.welcomePage": false,
+    "totvsLanguageServer.editor.linter.includes": "C:\\P122410\\ProtheusAppserver\\Protheus\\include",  
+    
+    "totvsDeveloper.environment": "environment",
+    "totvsLanguageServer.connectionToken": "",
+    "totvsLanguageServer.allowTLS": true,
+    "totvsLanguageServer.connections": [
+    {
+      "id": "BRUNO",
+      "name": "BRUNO",
+      "server": "localhost",
+      "port": 1234,
+      "secure": true,
+      "includeList": "C:\\P122410\\ProtheusAppserver\\Protheus\\include",
+      "environment": "environment",
+      "user": "admin",
+      "password": ""
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "totvs_language_web_debug",
+			"request": "launch",
+			"name": "Smart Client Web Debug",
+			"program": "${command:AskForProgramName}",
+			"cwb": "${workspaceFolder}",
+			"smartclientUrl": "http://localhost:4321/",
+			"isMultiSession": true,
+			"enableTableSync": true
+		},
+		{
+			"type": "totvs_language_debug",
+			"request": "launch",
+			"name": "Debug Protheus WebApp",
+			"smartclientBin": "C:\\P122410\\ProtheusAppserver\\Protheus\\bin\\smartclient\\smartclient.exe",
+			"program": "${command:AskForProgramName}",
+			"args": [
+				"${command:AskForProgramArguments}"
+			],
+			"environment": "environment",
+			"isWebApp": true,
+			"port": 1234,
+			"enableMultiThread": false,
+			"language": "portuguese",
+			"ignoreFiles": true
+		}
+	],
+	"lastPrograms": [
+		{
+			"label": "u_teste"
+		},
+		{
+			"label": "U_Principal"
+		},
+		{
+			"label": "U_Contas"
+		},
+		{
+			"label": "manipulacaoVariaveis"
+		},
+		{
+			"label": "U_manipulacaoVariaveis"
+		},
+		{
+			"label": "U_NUMERICAS"
+		},
+		{
+			"label": "U_DECISAO"
+		},
+		{
+			"label": "U_FUNCOES2"
+		}
+	],
+	"lastProgramExecuted": "U_FUNCOES2",
+	"lastProgramArguments": []
+}

@@ -52,8 +52,11 @@
 		},
 		{
 			"label": "U_FUNCOES2"
+		},
+		{
+			"label": "U_Transacao"
 		}
 	],
-	"lastProgramExecuted": "U_FUNCOES2",
+	"lastProgramExecuted": "U_Transacao",
 	"lastProgramArguments": []
 }

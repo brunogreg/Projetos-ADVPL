@@ -55,8 +55,29 @@
 		},
 		{
 			"label": "U_Transacao"
+		},
+		{
+			"label": "SIGAFAT"
+		},
+		{
+			"label": "U_IVisual"
+		},
+		{
+			"label": "U_SZ1990"
+		},
+		{
+			"label": "U_TELATEST"
+		},
+		{
+			"label": "u_ZSZ1990"
+		},
+		{
+			"label": "U_TESTFUNC"
+		},
+		{
+			"label": "U_TESTAFUNC"
 		}
 	],
-	"lastProgramExecuted": "U_Transacao",
+	"lastProgramExecuted": "SIGAFAT",
 	"lastProgramArguments": []
 }

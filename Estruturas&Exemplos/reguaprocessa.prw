@@ -1,14 +1,13 @@
 #include "Protheus.ch"
 
 //------------------------------------------------------------------------------------------
-/*/{Protheus.doc} regua processa
-regua para relatorios
-
-@author    paulo.bindo
-@version   11.3.10.201812061821
-@since     21/06/2019
-/*/
-
+/*/{Protheus.doc} ReguaProcessa
+Regua processa régua para relatórios
+@type user function
+@author paulo.bindo
+@version 11.3.10_201812061821
+@since 21/06/2019
+*/
 User Function PBProc()
 	Local aSay := {}
 	Local aButton := {}
@@ -24,6 +23,7 @@ User Function PBProc()
     AADD( aSay, cDesc3 )	
 	AADD( aButton, { 1, .T., {|| nOpc := 1, FechaBatch() }} )
 	AADD( aButton, { 2, .T., {|| FechaBatch() }} )
+    //A funcao FormBatch assim como msdialog abre um telinha 
 	FormBatch( cTitulo, aSay, aButton )
 	If nOpc <> 1
 		Return 
@@ -42,10 +42,12 @@ Static Function RunProc(lEnd)
 	dbSeek(xFilial("SX5")+"01",.T.)
 	dbEval( {|x| nCnt++ },,{||X5_FILIAL==xFilial("SX5").And.X5_TABELA<="99"})
     
+    // ProcRegua(nCnt) Ele vai assumir o tamanho da régua
     ProcRegua(nCnt)
 
 	dbSeek(xFilial("SX5")+"01",.T.)
 	While !Eof() .And. X5_FILIAL == xFilial("SX5") .And. X5_TABELA <= "99"
+        //atualiza a régua/contador de progresso mostrando a chave atual.
 		IncProc("Processando tabela: "+SX5->X5_CHAVE)
 		If lEnd
 			MsgInfo(cCancel,"Fim")

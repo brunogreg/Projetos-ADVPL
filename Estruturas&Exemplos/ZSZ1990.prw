@@ -1,205 +1,129 @@
-#Include "Protheus.ch"
-#Include "FWBrowse.ch"
-#Include "FWMVCDEF.ch"
-#Include "tbiconn.ch"
-#Include "tbicode.ch"
-
-#define MVC_ID     "SZ1990MVC"
-#define ALIAS_Z    "SZ1990"
-
-/*/{Protheus.doc} ZSZ1990
-Manutenção da tabela SZ1990 (Browse padrão + MVC)
-@type user function
-@author Bruno
-@since 27/12/2025
-/*/
+#INCLUDE "RWMAKE.CH"
+#INCLUDE "TOTVS.CH"
+#INCLUDE "PARMTYPE.CH"
+#INCLUDE "FWMVCDEF.CH"
+#INCLUDE "FWMBROWSE.CH"
+ 
+#Define cTitulo "Cadastro de Cliente (ZZ1)"
+ 
 User Function ZSZ1990()
-    Local oBrw := Nil
+ 
+    Local oBrowse := FWMBrowse():New()
+ 
+    oBrowse:SetAlias("ZZ1")
+    oBrowse:SetDescription(cTitulo)
+    oBrowse:SetMenuDef("ZSZ1990")
+    oBrowse:DisableDetails()
+ 
+    oBrowse:Activate()
+ 
+Return NIL
+ 
+Static Function MenuDef()
+ 
+    Local aRotina := {}
+ 
+    // IMPORTANTE: aqui TEM que ser string, não pode ser bloco {|| }
+    aAdd(aRotina, {"Visualizar", "VIEWDEF.ZSZ1990", 0, OP_VISUALIZAR, 0, NIL})
+    //aAdd(aRotina, {"Incluir"   , "VIEWDEF.ZSZ1990", 0, OP_INCLUIR   , 0, NIL})
+    aAdd(aRotina, {"Incluir",    "U_ZZ1_INSERT", 0, OP_INCLUIR,   0, NIL})
+    aAdd(aRotina, {"Alterar"   , "VIEWDEF.ZSZ1990", 0, OP_ALTERAR   , 0, NIL})
+    aAdd(aRotina, {"Excluir"   , "VIEWDEF.ZSZ1990", 0, OP_EXCLUIR   , 0, NIL})
+ 
+Return aRotina
 
-    // Defensivo: garante contexto caso execute "no seco"
-    RpcSetType(3)
-    PREPARE ENVIRONMENT EMPRESA "99" FILIAL "01" MODULO "SIGACFG"
-
-    BEGIN SEQUENCE
-
-        // Garante que o alias existe/abre
-        dbSelectArea(ALIAS_Z)
-        dbSetOrder(1)
-
-        // Browse padrão (lista)
-        oBrw := FWMBrowse():New()
-        oBrw:SetAlias(ALIAS_Z)
-        oBrw:SetTitle("Manutenção - SZ1990 (Conversão de UM)")
-
-        // Colunas (igual estilo do print)
-        oBrw:AddFields({;
-            {"Z1_CLIENT", "Cliente"},;
-            {"Z1_LOJA",   "Loja"},;
-            {"Z1_PRODUT", "Produto"},;
-            {"Z1_UM",     "UM"},;
-            {"Z1_FATOR",  "Fator"},;
-            {"Z1_TIPO",   "Tipo"},;
-            {"Z1_UMCLI",  "UM Cliente"} })
-
-        // Botões padrão
-        oBrw:AddButton("Visualizar",{|| Sz1_OpenView("VIEW")})
-        oBrw:AddButton("Incluir",{|| Sz1_OpenView("INCLUIR"),oBrw:Refresh()})
-        oBrw:AddButton("Alterar",{|| Sz1_OpenView("ALTERAR"),oBrw:Refresh()})
-        oBrw:AddButton("Excluir",{|| Sz1_DeleteCurrent(),oBrw:Refresh()})
-
-        oBrw:Activate()
-
-    END SEQUENCE
-
-    RESET ENVIRONMENT
-Return
-
-
-// ======================================================
-// Abre o MVC no modo desejado (VIEW / INCLUIR / ALTERAR)
-// ======================================================
-Static Function Sz1_OpenView(cModo)
-    Local cOperation := ""
-    Local aArea      := GetArea()
-
-    Do Case
-    Case Upper(cModo) == "VIEW"
-        cOperation := "VIEW"
-    Case Upper(cModo) == "INCLUIR"
-        cOperation := "INSERT"
-    Otherwise // ALTERAR
-        cOperation := "UPDATE"
-    EndCase
-
-    // Abre a tela MVC
-    FWExecView( ;
-        "SZ1990 - Conversão de UM", ; // Título
-        MVC_ID, ;                    // ID do MVC
-        cOperation, ;                // Operação
-        , ;                          // aParam (vazio)
-        .T. )                        // lModal
-
-    RestArea(aArea)
-Return
-
-
-// =====================================
-// Exclui o registro corrente da SZ1990
-// =====================================
-Static Function Sz1_DeleteCurrent()
-    Local aArea := GetArea()
-    Local lOk   := .F.
-
-    dbSelectArea(ALIAS_Z)
-    dbSetOrder(1)
-
-    If (ALIAS_Z)->(Eof())
-        FWAlertInfo("Não há registro selecionado.")
-        RestArea(aArea)
-        Return .F.
-    EndIf
-
-    If ! FWAlertYesNo("Confirma a exclusão do registro selecionado?")
-        RestArea(aArea)
-        Return .F.
-    EndIf
-
-    // Exclusão padrão
-    If RecLock(ALIAS_Z, .F.)
-        (ALIAS_Z)->(dbDelete())
-        (ALIAS_Z)->(MsUnlock())
-        lOk := .T.
-    Else
-        FWAlertError("Não foi possível bloquear o registro para exclusão.")
-    EndIf
-
-    RestArea(aArea)
-Return lOk
-
-
-// =======================
-// MVC - MODEL (obrigatório)
-// =======================
+User Function ZZ1_INSERT()
+    ConOut(">>> BOTÃO INCLUIR CLICADO")
+    FWExecView("ZSZ1990", OP_INCLUIR)
+Return NIL
+ 
+//==============================================================
+// MODEL
+//==============================================================
 Static Function ModelDef()
-    Local oModel := FWFormModel():New(MVC_ID)
-    Local oStru  := FWFormStruct(1, ALIAS_Z)
-
-    oModel:AddFields("MASTER", , oStru)
-
-    // -----------------------
-    // Validações de negócio
-    // -----------------------
-
-    // Cliente + Loja (SA1)
-    oModel:AddValidation( ;
-        "Z1_CLIENT", ;
-        {|| ValidCliente((ALIAS_Z)->Z1_CLIENT, (ALIAS_Z)->Z1_LOJA)}, ;
-        "Cliente/Loja não encontrados na SA1!" )
-
-    // Produto (SB1)
-    oModel:AddValidation( ;
-        "Z1_PRODUT", ;
-        {|| ValidProduto((ALIAS_Z)->Z1_PRODUT)}, ;
-        "Produto não encontrado na SB1!" )
-
-    // Fator > 0
-    oModel:AddValidation( ;
-        "Z1_FATOR", ;
-        {|| Val(AllTrim((ALIAS_Z)->Z1_FATOR)) > 0}, ;
-        "O fator deve ser maior que zero!" )
-
+ 
+    Local oModel   := MPFormModel():New("ZSZ1990", ;
+                        , ;                  // bPreVld
+                        , ;                  // bPosVld
+                        {|oM| oM:Save() }, ; // bCommit (grava)
+                        {|oM| .T. } )        // bCancel
+ 
+    Local oStruZZ1 := FWFormStruct(1, "ZZ1") // 1 = MODEL
+    Local aKeep    := {"ZZ1_FILIAL","ZZ1_CLIENT","ZZ1_NOME","ZZ1_FONE","ZZ1_EMAIL","ZZ1_CPF"}
+    Local aFields  := oStruZZ1:GetFields()
+    Local n, cFld
+ 
+    // Mantém só os campos desejados (SEM usar aFields[n]:Name)
+    For n := Len(aFields) To 1 Step -1
+        cFld := _FldName(aFields[n])
+        If !Empty(cFld) .And. Ascan(aKeep, cFld) == 0
+            oStruZZ1:RemoveField(cFld)
+        EndIf
+    Next
+ 
+    oModel:AddFields("MODEL_ZZ1", , oStruZZ1)
+    oModel:GetModel("MODEL_ZZ1"):SetPrimaryKey({"ZZ1_FILIAL","ZZ1_CLIENT"})
+ 
+    oModel:SetDescription(cTitulo)
+    oModel:GetModel("MODEL_ZZ1"):SetDescription(cTitulo)
+ 
 Return oModel
-
-
-// ======================
-// MVC - VIEW (obrigatório)
-// ======================
+ 
+//==============================================================
+// VIEW
+//==============================================================
 Static Function ViewDef()
-    Local oView  := FWFormView():New()
-    Local oModel := FWLoadModel(MVC_ID)
-    Local oStruV := FWFormStruct(2, ALIAS_Z)
-
+ 
+    Local oView   := FWFormView():New()
+    Local oModel  := FWLoadModel("ZSZ1990")
+ 
+    // Na sua versão, evitar FWFormStruct(2,...) (já vimos dar erro nType)
+    Local oStruV  := FWFormStruct(1, "ZZ1")
+    Local aKeep   := {"ZZ1_FILIAL","ZZ1_CLIENT","ZZ1_NOME","ZZ1_FONE","ZZ1_EMAIL","ZZ1_CPF"}
+    Local aFields := oStruV:GetFields()
+    Local n, cFld
+ 
+    For n := Len(aFields) To 1 Step -1
+        cFld := _FldName(aFields[n])
+        If !Empty(cFld) .And. Ascan(aKeep, cFld) == 0
+            oStruV:RemoveField(cFld)
+        EndIf
+    Next
+ 
     oView:SetModel(oModel)
-
-    oView:CreateHorizontalBox("BOX", 100)
-    oView:AddFields("VIEW_MASTER", oStruV, "MASTER")
-    oView:SetOwnerView("VIEW_MASTER", "BOX")
-
+ 
+    oView:CreateVerticalBox("PAINEL_PRINCIPAL", 100)
+    oView:CreateHorizontalBox("BOX_FORM", 100, "PAINEL_PRINCIPAL")
+ 
+    oView:AddField("VIEW_ZZ1", oStruV, "MODEL_ZZ1")
+    oView:SetOwnerView("VIEW_ZZ1", "BOX_FORM")
+ 
 Return oView
-
-
-// ==========================================
-// Validação Cliente+Loja (SA1) - por índice
-// ==========================================
-Static Function ValidCliente(cCliente, cLoja)
-    Local aArea := GetArea()
-    Local lOk   := .F.
-
-    cCliente := PadR(AllTrim(cCliente), TamSX3("A1_COD")[1])
-    cLoja    := PadR(AllTrim(cLoja),    TamSX3("A1_LOJA")[1])
-
-    dbSelectArea("SA1")
-    dbSetOrder(1) // normalmente: xFilial("SA1")+A1_COD+A1_LOJA
-
-    lOk := SA1->( DbSeek( xFilial("SA1") + cCliente + cLoja ) )
-
-    RestArea(aArea)
-Return lOk
-
-
-// ===================================
-// Validação Produto (SB1) - por índice
-// ===================================
-Static Function ValidProduto(cProd)
-    Local aArea := GetArea()
-    Local lOk   := .F.
-
-    cProd := PadR(AllTrim(cProd), TamSX3("B1_COD")[1])
-
-    dbSelectArea("SB1")
-    dbSetOrder(1) // normalmente: xFilial("SB1")+B1_COD
-
-    lOk := SB1->( DbSeek( xFilial("SB1") + cProd ) )
-
-    RestArea(aArea)
-Return lOk
+ 
+//==============================================================
+// Helper: pega nome do campo independente do formato do GetFields()
+//==============================================================
+Static Function _FldName(uField)
+ 
+    Local cName := ""
+ 
+    Do Case
+    Case ValType(uField) == "C"
+        cName := uField
+ 
+    Case ValType(uField) == "A" .And. Len(uField) > 0 .And. ValType(uField[1]) == "C"
+        cName := uField[1]
+ 
+    Case ValType(uField) == "O"
+        Begin Sequence
+            cName := uField:Name
+        Recover
+            Begin Sequence
+                cName := uField:cName
+            Recover
+                cName := ""
+            End Sequence
+        End Sequence
+    EndCase
+ 
+Return Upper(AllTrim(cName))

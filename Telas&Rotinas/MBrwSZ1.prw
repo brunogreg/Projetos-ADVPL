@@ -8,7 +8,8 @@
 ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
 /*/
 #Include "Protheus.ch"
- 
+
+//TELA DE BROWSE COM MBRWOSZ1, TELA SIMPLES SEM CAMPOS EDITAVEIS, COM LEGENDAS SEM MARCADOR E SEM FILTRO
 User Function MBrwSZ1()
     Local cAlias := "SZ1"
     Local aCores := {} // cores do browse

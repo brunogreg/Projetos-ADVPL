@@ -1,0 +1,56 @@
+#include 'tlpp-core.th'
+#include 'protheus.ch'
+
+#define C_GRUPO  "99"
+#define C_FILIAL "01"
+
+//-------------------------------------------------------------------
+/*
+https://tdn.totvs.com/display/public/framework/MPSysOpenQuery
+*/
+//-------------------------------------------------------------------
+//Exemplo com bind
+
+user Function MPSmybind()
+
+	Local cQuery        as character
+	Local cAlias        as character
+	Local aBindParam    as array
+
+	RpcSetEnv(C_GRUPO, C_FILIAL) //define o ambiente para execucao da query
+
+	// RetSqlName para retornar o nome correto da tabela conforme o banco de dados
+	cQuery := "SELECT B1_COD,B1_DATREF FROM "+RetSqlName("SB1")+" WHERE B1_COD = ? AND  D_E_L_E_T_ <> ?"
+	//ChangeQuery para adequar a query ao banco de dados
+	cQuery := ChangeQuery(cQuery)
+
+	//os parametros DEVEM ser enviados na mesma ordem em que aparecem na query.
+	aBindParam := {'000001', '*'}
+
+	// MPSysOpenQuery retorna o alias da tabela temporaria criada
+	cAlias  := MPSysOpenQuery(cQuery,,,,aBindParam)
+	aStruQry	:= &(cAlias)->(dbStruct())
+	Conout((cAlias)->(B1_COD))
+	(cAlias)->(DbCloseArea())
+	RpcClearEnv() //limpa o ambiente
+Return
+
+
+
+//Exemplo sem bind
+user Function MPSMyOpen()
+
+	Local cQuery        as character
+	Local cAlias        as character
+
+	RpcSetEnv(C_GRUPO, C_FILIAL)
+
+	cQuery := "SELECT B1_COD,B1_DATREF FROM "+RetSqlName("SB1")+" WHERE B1_COD = '000001' AND  D_E_L_E_T_ <> '*'"
+	cQuery := ChangeQuery(cQuery)
+
+	cAlias  := MPSysOpenQuery(cQuery)
+	aStruQry	:= &(cAlias)->(dbStruct())
+	Conout((cAlias)->(B1_COD))
+	(cAlias)->(DbCloseArea())
+	RpcClearEnv()
+Return

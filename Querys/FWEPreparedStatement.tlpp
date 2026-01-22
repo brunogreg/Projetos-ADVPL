@@ -1,0 +1,33 @@
+#include 'protheus.ch'
+#include 'tlpp-core.th'
+
+#define C_GRUPO  "99"
+#define C_FILIAL "01"
+/*
+Objeto que representa um comando SQL precompilado. Esse objeto pode ser usado para executar 
+eficientemente um comando SQL inúmeras vezes.
+
+https://tdn.totvs.com/display/public/framework/FWPreparedStatement
+*/
+
+User Function tPrepStat()
+	Local oStatement
+	Local cQuery
+	Local cFinalQuery
+	Local cCod := "000001"
+
+	RpcSetEnv(C_GRUPO, C_FILIAL)
+
+	oStatement := FWPreparedStatement():New() //Cria o objeto FWPreparedStatement
+	cQuery := "SELECT * FROM "+RetSqlName("SB1")+" WHERE B1_COD =? AND D_E_L_E_T_ <> ?"
+
+//Define a consulta e os parâmetros
+	oStatement:SetQuery(cQuery)// passa a query para depois passar os parametros
+	oStatement:SetString(1,cCod) // paramentros
+	oStatement:SetString(2,"*")
+
+//Recupera a consulta já com os parâmetros injetados
+	cFinalQuery := oStatement:GetFixQuery() // Pega a query formatada para conferência
+
+    RpcClearEnv()
+Return

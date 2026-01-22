@@ -1,0 +1,41 @@
+#include 'tlpp-core.th'
+#include "protheus.ch"
+
+
+#define C_GRUPO  "99"
+#define C_FILIAL "01"
+
+//-------------------------------------------------------------------
+/*{Protheus.doc} QryCached
+Exemplo de utilização da classe FwExecCachedQuery, classe responsável
+por abrir queries já efetuando cache de seu retorno
+  
+https://tdn.totvs.com/display/public/framework/FWExecCachedQuery
+
+*/
+//-------------------------------------------------------------------
+User Function QryCached()
+	local cAlias 
+	local cQuery 
+
+	RpcSetEnv(C_GRUPO, C_FILIAL)
+
+	cQuery := "SELECT B1_COD FROM " + RetSqlName("SB1") + " WHERE D_E_L_E_T_ <> '*'"
+
+	cAlias := FwExecCachedQuery():OpenQuery(cQuery,/*cAlias*/, /*aSetField*/, /*cDriver*/, "120", "60")
+
+	while !(cAlias)->(Eof())
+		ConOut((cAlias)->B1_COD)
+		(cAlias)->(DBSkip())
+	enddo
+
+	(cAlias)->(DBCloseArea())
+
+	cQuery := "SELECT B1_DESC FROM " + RetSqlName("SB1") + " WHERE D_E_L_E_T_ = ' ' AND B1_COD = '000001'"
+
+	ConOut("B1_DESC = " + FwExecCachedQuery():ExecScalar(cQuery, "B1_DESC", "120", "60"))
+
+	RpcClearEnv()
+
+return
+

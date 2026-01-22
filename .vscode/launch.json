@@ -79,8 +79,11 @@
 		},
 		{
 			"label": "u_VerErros"
+		},
+		{
+			"label": "U_AQueryII"
 		}
 	],
-	"lastProgramExecuted": "SIGAFAT",
+	"lastProgramExecuted": "U_AQueryII",
 	"lastProgramArguments": []
 }

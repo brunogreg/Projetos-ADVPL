@@ -1,27 +1,11 @@
 #Include "Topconn.ch"
 #Include "Protheus.ch"
 
-
-/*
-ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
-ฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑ
-ฑฑษออออออออออัออออออออออหอออออออัออออออออออออออออออออหออออออัอออออออออออออปฑฑ
-ฑฑบPrograma  ณtestatop  บAutor  ณMicrosiga           บ Data ณ  07/05/01   บฑฑ
-ฑฑฬออออออออออุออออออออออสอออออออฯออออออออออออออออออออสออออออฯอออออออออออออนฑฑ
-ฑฑบDesc.     ณ                                                            บฑฑ
-ฑฑบ          ณ                                                            บฑฑ
-ฑฑฬออออออออออุออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออนฑฑ
-ฑฑบUso       ณ AP5                                                        บฑฑ
-ฑฑศออออออออออฯออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผฑฑ
-ฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑฑ
-฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿฿
-*/
-
 User Function testatop()
     
 	//TCCanOpen - Cria arquivo CHECKTOP DE LOG DE INFORMACOES ALTERADAS NA TABELA TOP_FIELD
-	If TCCanOpen("CHECKTOP")
-		TCSQLEXEC("TRUNCATE TABLE CHECKTOP")
+	If TCCanOpen("CHECKTOP") //verifica se o arquivo ja existe
+		TCSQLEXEC("TRUNCATE TABLE CHECKTOP") // limpa o arquivo
 	else
 		AADD(aCamposCHK,{'CHK_TABLE','C',64,0})
 		AADD(aCamposCHK,{'CHK_NAME' ,'C',32,0})
@@ -36,7 +20,7 @@ User Function testatop()
 
 //TCDelfile -exclui tabela no servidor
 	if empty(cUserTable)
-		TCDelfile("CHECKTOP")
+		TCDelfile("CHECKTOP") //exclui tabela CHECKTOP
 	Endif
 
 	//TCCanOpen - Testa a exist๊ncia do ํndice

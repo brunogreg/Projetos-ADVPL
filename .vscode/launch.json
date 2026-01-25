@@ -4,6 +4,16 @@
 		{
 			"type": "totvs_language_web_debug",
 			"request": "launch",
+			"name": "Debug REST",
+			"program": "${command:AskForProgramName}",
+			"isMultiSession": true,
+			"enableTableSync": true,
+			"enableMultiThread": true,
+			"smartclientUrl": "http://localhost:4322/webapp/"
+		},
+		{
+			"type": "totvs_language_web_debug",
+			"request": "launch",
 			"name": "Smart Client Web Debug",
 			"program": "${command:AskForProgramName}",
 			"cwb": "${workspaceFolder}",
@@ -82,8 +92,11 @@
 		},
 		{
 			"label": "U_AQueryII"
+		},
+		{
+			"label": "xxx"
 		}
 	],
-	"lastProgramExecuted": "U_AQueryII",
-	"lastProgramArguments": []
+	"lastProgramArguments": [],
+	"lastProgramExecuted": "xxx"
 }

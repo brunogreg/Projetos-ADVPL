@@ -95,8 +95,14 @@
 		},
 		{
 			"label": "xxx"
+		},
+		{
+			"label": "SIGAMDI"
+		},
+		{
+			"label": "SIGACOM"
 		}
 	],
 	"lastProgramArguments": [],
-	"lastProgramExecuted": "xxx"
+	"lastProgramExecuted": "SIGACOM"
 }

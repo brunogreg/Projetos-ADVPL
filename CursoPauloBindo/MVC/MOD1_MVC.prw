@@ -1,5 +1,5 @@
 #INCLUDE 'PROTHEUS.CH'
-#INCLUDE 'FWMVCDEF.CH'
+#INCLUDE 'FWMVCDEF.CH' // Inclui as definiçoes do Framework MVC
 
 //-------------------------------------------------------------------
 /*/{Protheus.doc} MOD1_MVC
@@ -11,17 +11,17 @@ montagem tela para um tabela em MVC
 /*/
 //-------------------------------------------------------------------
 User Function MOD1_MVC()
-Local oBrowse
+Local oBrowse 
 
-oBrowse := FWMBrowse():New()
-oBrowse:SetAlias('SZ1')
-oBrowse:SetDescription('Cadastro de UM Cliente')
-oBrowse:AddLegend( "Z1_TIPO=='D'", "YELLOW", "Divide"  )
+oBrowse := FWMBrowse():New() // Cria o objeto Browse
+oBrowse:SetAlias('SZ1') // Define o alias da tabela a ser usada
+oBrowse:SetDescription('Cadastro de UM Cliente') // Define a descricao do Browse
+oBrowse:AddLegend( "Z1_TIPO=='D'", "YELLOW", "Divide"  ) //legenda para o filtro
 oBrowse:AddLegend( "Z1_TIPO=='M'", "GREEN"  , "Multiplica"  )
-//oBrowse:SetFilterDefault( "Z1_TIPO=='M'" )
+//oBrowse:SetFilterDefault( "Z1_TIPO=='M'" ) -- exemplo de filtro default
 
-oBrowse:DisableDetails()
-oBrowse:Activate()
+oBrowse:DisableDetails() // Desabilita a exibicao de detalhes na tela do Browse 
+oBrowse:Activate() // Ativa o Browse
 
 Return NIL
 
@@ -36,11 +36,13 @@ montagem menu em MVC
 /*/
 //-------------------------------------------------------------------
 
-Static Function MenuDef()
+Static Function MenuDef() // essa funcao encontra se dentro do  fwmbrowse()
 Local aRotina := {}
 
+// Adiciona as opcoes ao menu
 ADD OPTION aRotina TITLE 'Pesquisar'  ACTION 'PesqBrw'          OPERATION 1 ACCESS 0
-ADD OPTION aRotina TITLE 'Visualizar' ACTION 'VIEWDEF.MOD1_MVC' OPERATION 2 ACCESS 0
+ADD OPTION aRotina TITLE 'Visualizar' ACTION 'VIEWDEF.MOD1_MVC' OPERATION 2 ACCESS 0 
+// sempre atento a fazer as amarraçoes das funcoes as actions
 ADD OPTION aRotina TITLE 'Incluir'    ACTION 'VIEWDEF.MOD1_MVC' OPERATION 3 ACCESS 0
 ADD OPTION aRotina TITLE 'Alterar'    ACTION 'VIEWDEF.MOD1_MVC' OPERATION 4 ACCESS 0
 ADD OPTION aRotina TITLE 'Excluir'    ACTION 'VIEWDEF.MOD1_MVC' OPERATION 5 ACCESS 0
@@ -86,7 +88,7 @@ oModel:SetDescription( 'Modelo de Dados de UM Cliente' )
 oModel:GetModel( 'SZ1MASTER' ):SetDescription( 'Dados da UM Cliente' )
 
 // Liga a valida  o da ativacao do Modelo de Dados
-oModel:SetVldActivate( { |oModel| MOD1ACT( oModel ) } )
+oModel:SetVldActivate( { |oModel| MOD1ACT( oModel ) } ) // valida se pode excluir
 
 Return oModel
 
@@ -102,9 +104,10 @@ montagem view  em MVC
 
 Static Function ViewDef()
 // Cria um objeto de Modelo de Dados baseado no ModelDef do fonte informado
+// FWLoadModel carrega o modelo de dados ja definido
 Local oModel   := FWLoadModel( 'MOD1_MVC' ) //ModelDef() //FWLoadModel( 'MOD1_MVC' )
 // Cria a estrutura a ser usada na View
-Local oStruSZ1 := FWFormStruct( 2, 'SZ1' )
+Local oStruSZ1 := FWFormStruct( 2, 'SZ1' ) // forma a tela de edicao
 
 Local oView  
 
@@ -128,7 +131,7 @@ oView:CreateHorizontalBox( 'TELA' , 100 )
 // Relaciona o ID da View com o "box" para exibicao
 oView:SetOwnerView( 'VIEW_SZ1', 'TELA' )
 
-//For a o fechamento da janela na confirma  o
+//Forca o fechamento da janela na confirma  o
 oView:SetCloseOnOk({||.T.})
 
 Return oView
@@ -174,7 +177,7 @@ Local cTmp       := ''
 Local lRet       := .T.
 Local nOperation := oModel:GetOperation()
 
-If nOperation == 5 .AND. lRet
+If nOperation == 5 .AND. lRet // operacao 5 = excluir
 
 	cTmp    := GetNextAlias()
 

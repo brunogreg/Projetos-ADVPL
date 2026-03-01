@@ -25,11 +25,11 @@ User Function UCOMA003()
 
 //Pegando o modelo de dados, setando a operação de inclusão
 	oModel := FWLoadModel("CRMA980") //Rotina Cadastro de Clientes
-	oModel:SetOperation(3)
-	oModel:Activate()
+	oModel:SetOperation(3) //A1_FILIAL+A1_CGC
+	oModel:Activate() //Ativa o modelo de dados
 
 //Pegando o model dos campos da SA1
-	oSA1Mod:= oModel:getModel("SA1MASTER") //"MATA030_SA1" na antiga MATA030
+	oSA1Mod:= oModel:getModel("SA1MASTER") //("CRMA980") //Rotina Cadastro de Clientes
 	oSA1Mod:setValue("A1_COD",       cCod        ) // Codigo
 	oSA1Mod:setValue("A1_LOJA",      cLoja       ) // Loja
 	oSA1Mod:setValue("A1_NOME",      cNome       ) // Nome

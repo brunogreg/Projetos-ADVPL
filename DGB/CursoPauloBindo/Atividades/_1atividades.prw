@@ -1,5 +1,12 @@
 #Include "Protheus.ch"
 
+/*/-------------------------------------------------------------------
+- Programa  : Contabilizacao
+- Autor     : Tarcisio Silva Miranda
+- Data      : 28/01/2026
+- Descrição : Rotina que faz o calculo do ato cooperado.
+-------------------------------------------------------------------/*/
+
 Static cTexto := "Estatica"
 User Function Principal()
 

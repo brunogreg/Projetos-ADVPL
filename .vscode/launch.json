@@ -101,6 +101,9 @@
 		},
 		{
 			"label": "SIGACOM"
+		},
+		{
+			"label": "SIGAADV"
 		}
 	],
 	"lastProgramArguments": [],

@@ -9,11 +9,11 @@ Ponto de Entrada para adicionar Outras Ações na tela do Pedido de Venda
 @see https://tdn.totvs.com/display/public/PROT/MA410MNU
 /*/
 
-User Function MA410MNU()
+User Function MA410MNU() //ponto de entrada
     Local aArea := GetArea()
 
     //Adiciona na variável do Menu
-	aAdd(aRotina, {"* Data e Hora Atual", "u_zPeMnu()", 0, 2, 0, Nil})
+	aAdd(aRotina, {"* Data e Hora Atual", "u_zPeMnu()", 0, 2, 0, Nil}) //opação 2 é igual a visualizar  
 	
 	RestArea(aArea)
 Return

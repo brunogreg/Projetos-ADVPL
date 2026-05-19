@@ -4,6 +4,15 @@
 		{
 			"type": "totvs_language_web_debug",
 			"request": "launch",
+			"name": "Bluefid_Dev",
+			"program": "${command:AskForProgramName}",
+			"isMultiSession": true,
+			"enableTableSync": true,
+			"smartclientUrl": "https://bluefitacademias196921.protheus.cloudtotvs.com.br:7600/webapp/"
+		},
+		{
+			"type": "totvs_language_web_debug",
+			"request": "launch",
 			"name": "Debug REST",
 			"program": "${command:AskForProgramName}",
 			"isMultiSession": true,
@@ -104,8 +113,25 @@
 		},
 		{
 			"label": "SIGAADV"
+		},
+		{
+			"label": "U_XXX"
+		},
+		{
+			"args": [
+				"_xx"
+			],
+			"label": "U_XXX"
+		},
+		{
+			"label": "u_TesteGetById"
+		},
+		{
+			"label": "U_Test2l"
 		}
 	],
-	"lastProgramArguments": [],
-	"lastProgramExecuted": "SIGAFAT"
+	"lastProgramArguments": [
+		"_xx"
+	],
+	"lastProgramExecuted": "U_Test2l"
 }

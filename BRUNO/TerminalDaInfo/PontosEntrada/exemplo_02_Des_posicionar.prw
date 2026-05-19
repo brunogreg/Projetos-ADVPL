@@ -20,8 +20,8 @@ User Function MA035BUT()
 Return aBotoes
 
 Static Function fBotao()
-    Local aArea    := FWGetArea()
-    Local aAreaSBM := SBM->(FWGetArea())
+    Local aArea    := FWGetArea() //Obtém a área atual para depois restaurar
+    Local aAreaSBM := SBM->(FWGetArea())  //Obtém a área do SBM para depois restaurar
 
     Alert("oi")
 
@@ -31,6 +31,6 @@ Static Function fBotao()
     //Posiciona no último registro
     SBM->(DbGoBottom())
 
-    FWRestArea(aAreaSBM)
-    FWRestArea(aArea)
+    FWRestArea(aAreaSBM) //Restaura a área do SBM para evitar que o usuário fique "preso" nela  
+    FWRestArea(aArea) //Restaura a área original para evitar que o usuário fique "preso" nela
 Return

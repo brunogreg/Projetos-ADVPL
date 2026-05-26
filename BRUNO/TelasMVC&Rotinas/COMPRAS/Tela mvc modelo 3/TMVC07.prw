@@ -12,14 +12,13 @@ User Function TMVC07()
 Local aArea := GetArea()
 Local oBrowse
 Private aRotina :={}
-//Private cCadastro :='teste'
-//DbSelectArea('xxx')
 
 aRotina:= MenuDef()
 
-oBrowse:FWmBrowse():new()
+oBrowse:= FWMBrowse():New()
 oBrowse:SetAlias(cTabPai)
 oBrowse:SetDescription(cTitulo)
+oBrowse:DisableDetails()
 oBrowse:Activate()
 
 RestArea(aArea)
@@ -71,10 +70,10 @@ Static Function ViewDef()
     Local oStrucPai:= FWFormStruct(2,cTabPai)
     Local oStrucFilho:= FWFormStruct(2,cTabFilho)
 
-    oView:= FwFormView():new()
-    oView:= SetModel(oModel)
-    oView:AddField("VIEW_ZD5", oStrucPai, "ZD5MASTER")///
-	oView:AddGrid("VIEW_ZD6",  oStrucFilho,  "ZD6DETAIL")//
+    oView:= FWFormView():New()
+    oView:SetModel(oModel)
+    oView:AddField("VIEW_SC5", oStrucPai, "SC5MASTER")///
+	oView:AddGrid("VIEW_SC6",  oStrucFilho,  "SC6DETAIL")//
 
     //TELA
     oView:CreateHorizontalBox("CABEC", 30)//
@@ -83,8 +82,8 @@ Static Function ViewDef()
 	oView:SetOwnerView("VIEW_SC6", "GRID")//
 
 	//Titulos
-	oView:EnableTitleView("VIEW_SC5", "TESTE2")//
-	oView:EnableTitleView("VIEW_SC6", "TESTE3")//
+	oView:EnableTitleView("VIEW_SC5", "TESTE2")
+	oView:EnableTitleView("VIEW_SC6", "TESTE3")
 
 
 Return oView

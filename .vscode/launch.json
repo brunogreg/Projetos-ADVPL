@@ -128,10 +128,11 @@
 		},
 		{
 			"label": "U_Test2l"
+		},
+		{
+			"label": "U_CadastroCompleto"
 		}
 	],
-	"lastProgramArguments": [
-		"_xx"
-	],
-	"lastProgramExecuted": "U_Test2l"
+	"lastProgramArguments": [],
+	"lastProgramExecuted": "<cancel>"
 }

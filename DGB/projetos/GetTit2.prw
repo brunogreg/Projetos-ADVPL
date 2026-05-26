@@ -16,7 +16,7 @@ WSRESTFUL GetTit2 DESCRIPTION 'Lista titulos da SE2 originados do LocX'
     WSDATA datafim AS STRING
 
     WSMETHOD GET LIST  DESCRIPTION 'Retorna titulos'                         WSSYNTAX '/GetTit2/list?{filtro, dataini, datafim}'  PATH 'list'        PRODUCES APPLICATION_JSON
-    WSMETHOD GET BYTID DESCRIPTION 'Retorna um titulo especifico pelo idLcx' WSSYNTAX '/GetTit2/titulo/{id}'                      PATH 'titulo/{id}' PRODUCES APPLICATION_JSON
+    WSMETHOD GET ID DESCRIPTION 'Retorna um titulo especifico pelo idLcx' WSSYNTAX '/GetTit2/titulo/{id}'                      PATH 'titulo/{id}' PRODUCES APPLICATION_JSON
 END WSRESTFUL
 
 /*/-----------------------------------------------------------------------------------
@@ -263,20 +263,20 @@ Return .T.
 
 
 /*/-----------------------------------------------------------------------------------
-- Método    : GET BYTID
+- Método    : GET ID
 - Descrição : Retorna um título específico pelo E2_XIDLCX (id do LocX)
 - Como usar : GET /GetTit2/titulo/4
 - Retorno   : 200 + dados do título   = título encontrado
               404                     = título não encontrado
               400                     = id não informado ou inválido
 -----------------------------------------------------------------------------------/*/
-WSMETHOD GET BYTID WSSERVICE GetTit2
+WSMETHOD GET ID WSSERVICE GetTit2
 
     Local aArea     := FWGetArea()
     Local cId       := ""
     Local oTitulo   := Nil
     Local cQuery    := ""
-    Local cAlias    := "QRY_BYTID"
+    Local cAlias    := "QRY_ID"
     Local cSt       := ""
 
     BEGIN SEQUENCE

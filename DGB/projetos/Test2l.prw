@@ -4,11 +4,11 @@
 User Function Test2l()
     Local aArea       := FWGetArea()
     Local aHeader     := {}
-    Local oRest       := FWRest():New('http://localhost:8080/rest')
+    Local oRest       := FWRest():New('https://bluefitacademias196921.protheus.cloudtotvs.com.br:4050/rest')
     Local cResultado  := ''
     Local cErro       := ''
-    Local cLogin      := 'admin'
-    Local cPwd        := 'senha6431'
+    Local cLogin      := 't.pedro'
+    Local cPwd        := 'Pedro091@'
     Local cFiltro     := 'todos'
     Local cDataIni    := '20260101'
     Local cDataFim    := '20260518'
